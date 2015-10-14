@@ -66,7 +66,7 @@ def resetdisplay():
     wiringpi.digitalWrite(RST, HIGH)
     wiringpi.delayMicroseconds(150)
     wiringpi.digitalWrite(A3, HIGH)
-    wiringpi.digitalWrite(DSP0, LOW)
+    wiringpi.digitalWrite(DSP0, HIGH)
     wiringpi.digitalWrite(DSP1, LOW)
     return
 
