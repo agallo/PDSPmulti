@@ -103,7 +103,7 @@ def writedisplay(whattodisplay, chip):
     if chip == 0:
         wiringpi.digitalWrite(DSP0, HIGH)
     else:
-        wiringpi.digitalWrite(DSP0, HIGH)
+        wiringpi.digitalWrite(DSP1, LOW)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -130,6 +130,10 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
  #       wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
+    if chip == 0:
+        wiringpi.digitalWrite(DSP0, LOW)
+    else:
+        wiringpi.digitalWrite(DSP1, HIGH)
     return
 
 
@@ -155,7 +159,6 @@ def main():
         writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
         writedisplay(list(strftime("%H:%M:%S")), 1)
-
 
 
 main()
