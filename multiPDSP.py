@@ -156,10 +156,10 @@ inputstring = '   EST  '
 def main():
     setup()
     while True:
-        sleep(1)
         writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
         writedisplay(list(inputstring), 1)
+        sleep(1)
 
 
 main()
