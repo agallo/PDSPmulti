@@ -146,7 +146,7 @@ def pad(needtopad):
     return needtopad
 
 # main (to be replaced with arguments)
-inputstring = list('23:52:00')
+inputstring = 'EST'
 # 24 hour time for input
 # inputstring = time.strftime('%H:%M:%S')
 # 24 hour time for input
@@ -158,7 +158,7 @@ def main():
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
-        writedisplay(list(strftime("%H:%M:%S")), 1)
+        writedisplay(list(inputstring), 1)
 
 
 main()
