@@ -102,8 +102,10 @@ def scrolldisplay(istring):
 def writedisplay(whattodisplay, chip):
     if chip == 0:
         wiringpi.digitalWrite(DSP0, HIGH)
+        print "entering writedisplay, chip 0 selected HIGH"
     else:
         wiringpi.digitalWrite(DSP1, LOW)
+        print "entering writedisplay, chip 1 selected HIGH"
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -117,7 +119,6 @@ def writedisplay(whattodisplay, chip):
             wiringpi.digitalWrite(A2, HIGH)
         else:
             wiringpi.digitalWrite(A2, LOW)
-
         wiringpi.digitalWrite(latch, LOW)
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
@@ -128,12 +129,10 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
- #       wiringpi.digitalWrite(CE, HIGH)
+ #      wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
-    if chip == 0:
         wiringpi.digitalWrite(DSP0, LOW)
-    else:
-        wiringpi.digitalWrite(DSP1, HIGH)
+        wiringpi.digitalWrite(DSP1, LOW)
     return
 
 
