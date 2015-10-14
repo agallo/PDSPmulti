@@ -50,8 +50,8 @@ WR = 19                 # PDSP-13                       8
 latch = 21              # ShiftRegister-12              10
 SER = 23                # ShiftRegister-14              11
 CLK = 18                # ShiftRegister-11              12
-DSP0 = 38   # CE for display 0
-DSP1 = 40   # CE for display 1
+DSP0 = 22   # CE for display 0
+DSP1 = 24   # CE for display 1
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
