@@ -100,7 +100,7 @@ def scrolldisplay(istring):
 
 
 def writedisplay(whattodisplay, chip):
-    if chip = 0:
+    if chip == 0:
         wiringpi.digitalWrite(DSP0, HIGH)
     else:
         wiringpi.digitalWrite(DSP0, HIGH)
