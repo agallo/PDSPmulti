@@ -50,6 +50,8 @@ WR = 19                 # PDSP-13                       8
 latch = 21              # ShiftRegister-12              10
 SER = 23                # ShiftRegister-14              11
 CLK = 18                # ShiftRegister-11              12
+DSP0 = 38   # CE for display 0
+DSP1 = 40   # CE for display 1
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
@@ -64,6 +66,8 @@ def resetdisplay():
     wiringpi.digitalWrite(RST, HIGH)
     wiringpi.delayMicroseconds(150)
     wiringpi.digitalWrite(A3, HIGH)
+    wiringpi.digitalWrite(DSP0, LOW)
+    wiringpi.digitalWrite(DSP1, LOW)
     return
 
 
@@ -80,6 +84,8 @@ def setup():
     wiringpi.pinMode(latch, OUTPUT)
     wiringpi.pinMode(SER, OUTPUT)
     wiringpi.pinMode(CLK, OUTPUT)
+    wiringpi.pinMode(DSP0, OUTPUT)
+    wiringpi.pinMode(DSP1, OUTPUT)
     resetdisplay()
 
 
