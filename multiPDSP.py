@@ -67,7 +67,7 @@ def resetdisplay():
     wiringpi.delayMicroseconds(150)
     wiringpi.digitalWrite(A3, HIGH)
     wiringpi.digitalWrite(DSP0, LOW)
-    wiringpi.digitalWrite(DSP1, HIGH)
+    wiringpi.digitalWrite(DSP1, LOW)
     return
 
 
@@ -99,7 +99,11 @@ def scrolldisplay(istring):
     return
 
 
-def writedisplay(whattodisplay):
+def writedisplay(whattodisplay, chip):
+    if chip = 0:
+        wiringpi.digitalWrite(DSP0, HIGH)
+    else:
+        wiringpi.digitalWrite(DSP0, HIGH)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -148,7 +152,10 @@ inputstring = list('23:52:00')
 def main():
     setup()
     while True:
-        writedisplay(list(strftime("%H:%M:%S")))
+        writedisplay(list(strftime("%H:%M:%S")), 0)
+        sleep(1)
+        writedisplay(list(strftime("%H:%M:%S")), 1)
+
 
 
 main()
