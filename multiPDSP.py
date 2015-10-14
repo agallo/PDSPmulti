@@ -146,7 +146,7 @@ def pad(needtopad):
     return needtopad
 
 # main (to be replaced with arguments)
-inputstring = 'EST'
+inputstring = '   EST  '
 # 24 hour time for input
 # inputstring = time.strftime('%H:%M:%S')
 # 24 hour time for input
