@@ -131,9 +131,9 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
  #      wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
-        wiringpi.digitalWrite(DSP0, LOW)
-        wiringpi.digitalWrite(DSP1, LOW)
-        print"-->Exiting writedisplay, both CEs are LOW"
+    wiringpi.digitalWrite(DSP0, LOW)
+    wiringpi.digitalWrite(DSP1, LOW)
+    print"-->Exiting writedisplay, both CEs are LOW"
     return
 
 
