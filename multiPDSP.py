@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
 from time import sleep
+from time import strftime
+
 import wiringpi2 as wiringpi
-from time import gmtime, strftime
+
 
 
 # this local definition is no longer needed because
@@ -40,18 +42,18 @@ ShfR -  PDSP
 
 # define pin names
 # VAR = GPIO header     PDSP or Shift Register pin#     via header pin
-RST = 3                 # PDSP-1                        1
-A0 = 5                  # PDSP-3                        3
-A1 = 7                  # PDSP-4                        4
-A2 = 11                 # PDSP-5                        5
-A3 = 13                 # PDSP-6                        6
-CE = 15                 # PDSP-14                       7
-WR = 19                 # PDSP-13                       8
-latch = 21              # ShiftRegister-12              10
-SER = 23                # ShiftRegister-14              11
-CLK = 18                # ShiftRegister-11              12
-DSP0 = 22   # CE for display 0
-DSP1 = 24   # CE for display 1
+RST = 3  # PDSP-1                        1
+A0 = 5  # PDSP-3                        3
+A1 = 7  # PDSP-4                        4
+A2 = 11  # PDSP-5                        5
+A3 = 13  # PDSP-6                        6
+CE = 15  # PDSP-14                       7
+WR = 19  # PDSP-13                       8
+latch = 21  # ShiftRegister-12              10
+SER = 23  # ShiftRegister-14              11
+CLK = 18  # ShiftRegister-11              12
+DSP0 = 22  # CE for display 0
+DSP1 = 24  # CE for display 1
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
@@ -104,7 +106,7 @@ def writedisplay(whattodisplay, chip):
         wiringpi.digitalWrite(DSP0, HIGH)
         print "entering writedisplay, chip 0 selected HIGH"
     else:
-        wiringpi.digitalWrite(DSP1, LOW)
+        wiringpi.digitalWrite(DSP1, HIGH)
         print "entering writedisplay, chip 1 selected HIGH"
     for pos in range(0, 8):
         if 1 & pos <> 0:
@@ -123,13 +125,13 @@ def writedisplay(whattodisplay, chip):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
-#        wiringpi.digitalWrite(CE, LOW)
+        # wiringpi.digitalWrite(CE, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
- #      wiringpi.digitalWrite(CE, HIGH)
+        # wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
     wiringpi.digitalWrite(DSP0, LOW)
     wiringpi.digitalWrite(DSP1, LOW)
@@ -145,8 +147,11 @@ def pad(needtopad):
         needtopad.append(' ')
     return needtopad
 
+
 # main (to be replaced with arguments)
 inputstring = '   EST  '
+
+
 # 24 hour time for input
 # inputstring = time.strftime('%H:%M:%S')
 # 24 hour time for input
