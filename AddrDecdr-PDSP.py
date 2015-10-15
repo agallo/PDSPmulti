@@ -79,7 +79,7 @@ def setup():
     wiringpi.pinMode(A1, OUTPUT)
     wiringpi.pinMode(A2, OUTPUT)
     wiringpi.pinMode(A3, OUTPUT)
-    wiringpi.pinMode(CE, OUTPUT)
+#    wiringpi.pinMode(CE, OUTPUT)
     wiringpi.pinMode(WR, OUTPUT)
     wiringpi.pinMode(latch, OUTPUT)
     wiringpi.pinMode(SER, OUTPUT)
