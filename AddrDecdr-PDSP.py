@@ -6,10 +6,6 @@ from time import strftime
 import wiringpi2 as wiringpi
 
 
-# this local definition is no longer needed because
-# wiringpi has high speed delays
-# usleep = lambda x: sleep(x / 1000000.0)
-
 # TODO command line argument: -i (string to display (need to fiugre out how to accept special chars)
 # TODO command line argument: -t (system local time, 12 hour (no AM or PM))
 # TODO command line argument: -T (system local time, 24 hour)
@@ -20,7 +16,7 @@ import wiringpi2 as wiringpi
 
 '''
 hardware notes
-using PDSP-1880 and 74LS595N
+using PDSP-1880 and 74LS595N (shift register) 74HC238 (address decoder)
 see pin assignments for GPIO (header pin number) to variable to chip mapping
 header pin column to be filled in after perfboard prototype is laid out
 --- Power & Ground
@@ -42,17 +38,19 @@ ShfR -  PDSP
 # define pin names
 # VAR = GPIO header     PDSP or Shift Register pin#     via header pin
 RST = 3  # PDSP-1                        1
-A0 = 5  # PDSP-3                        3
-A1 = 7  # PDSP-4                        4
+A0 = 5   # PDSP-3                        3
+A1 = 7   # PDSP-4                        4
 A2 = 11  # PDSP-5                        5
 A3 = 13  # PDSP-6                        6
-CE = 15  # PDSP-14                       7
+# CE = 15  # PDSP-14                       7 <--replaced by ChipSelect Pins
 WR = 19  # PDSP-13                       8
 latch = 21  # ShiftRegister-12              10
-SER = 23  # ShiftRegister-14              11
-CLK = 18  # ShiftRegister-11              12
-DSP0 = 22  # CE for display 0
-DSP1 = 24  # CE for display 1
+SER = 23    # ShiftRegister-14              11
+CLK = 18    # ShiftRegister-11              12
+AD0 = 22   # Address Decoder Input A0
+AD1 = 24   # Address Decoder Input A1
+AD2 = 26   # Address Decoder Input A2
+
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
@@ -67,8 +65,9 @@ def resetdisplay():
     wiringpi.digitalWrite(RST, HIGH)
     wiringpi.delayMicroseconds(150)
     wiringpi.digitalWrite(A3, HIGH)
-    wiringpi.digitalWrite(DSP0, LOW)
-    wiringpi.digitalWrite(DSP1, LOW)
+    wiringpi.digitalWrite(AD0, LOW)
+    wiringpi.digitalWrite(AD1, LOW)
+    wiringpi.digitalWrite(AD2, LOW)
     return
 
 
@@ -85,8 +84,9 @@ def setup():
     wiringpi.pinMode(latch, OUTPUT)
     wiringpi.pinMode(SER, OUTPUT)
     wiringpi.pinMode(CLK, OUTPUT)
-    wiringpi.pinMode(DSP0, OUTPUT)
-    wiringpi.pinMode(DSP1, OUTPUT)
+    wiringpi.pinMode(AD0, OUTPUT)
+    wiringpi.pinMode(AD1, OUTPUT)
+    wiringpi.pinMode(AD2, OUTPUT)
     resetdisplay()
 
 
@@ -102,9 +102,11 @@ def scrolldisplay(istring):
 
 def writedisplay(whattodisplay, chip):
     if chip == 0:
-        wiringpi.digitalWrite(DSP0, HIGH)
+        wiringpi.digitalWrite(AD0, HIGH)
+    elif chip == 1:
+        wiringpi.digitalWrite(AD1, HIGH)
     else:
-        wiringpi.digitalWrite(DSP1, HIGH)
+        wiringpi.digitalWrite(AD2, HIGH)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -130,8 +132,9 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         # wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
-    wiringpi.digitalWrite(DSP0, LOW)
-    wiringpi.digitalWrite(DSP1, LOW)
+    wiringpi.digitalWrite(AD0, LOW)
+    wiringpi.digitalWrite(AD1, LOW)
+    wiringpi.digitalWrite(AD2, LOW)
     return
 
 
