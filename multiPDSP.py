@@ -104,10 +104,8 @@ def scrolldisplay(istring):
 def writedisplay(whattodisplay, chip):
     if chip == 0:
         wiringpi.digitalWrite(DSP0, HIGH)
-        print "entering writedisplay, chip 0 selected HIGH"
     else:
         wiringpi.digitalWrite(DSP1, HIGH)
-        print "entering writedisplay, chip 1 selected HIGH"
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -135,7 +133,6 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
     wiringpi.digitalWrite(DSP0, LOW)
     wiringpi.digitalWrite(DSP1, LOW)
-    print"-->Exiting writedisplay, both CEs are LOW"
     return
 
 
@@ -149,7 +146,7 @@ def pad(needtopad):
 
 
 # main (to be replaced with arguments)
-inputstring = '   EDT  '
+inputstring = 'PM   EDT  '
 
 
 # 24 hour time for input
