@@ -146,7 +146,7 @@ def pad(needtopad):
 
 
 # main (to be replaced with arguments)
-inputstring = 'PM   EDT  '
+inputstring = '   EDT  '
 
 
 # 24 hour time for input
