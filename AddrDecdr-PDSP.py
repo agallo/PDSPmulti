@@ -137,9 +137,17 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         # wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
-    wiringpi.digitalWrite(AD0, LOW)
-    wiringpi.digitalWrite(AD1, LOW)
-    wiringpi.digitalWrite(AD2, LOW)
+    print "LEAVING writetodisplay"
+    if chip == 0:
+        print "   chip 0, all inputs LOW"
+        wiringpi.digitalWrite(AD0, LOW)
+        wiringpi.digitalWrite(AD1, LOW)
+        wiringpi.digitalWrite(AD2, LOW)
+    elif chip == 1:
+        print "   chip 1, AD1 LOW"
+        wiringpi.digitalWrite(AD1, LOW)
+    else:
+        wiringpi.digitalWrite(AD2, LOW)
     return
 
 
@@ -165,7 +173,7 @@ inputstring = '   EDT  '
 def main():
     setup()
     while True:
-        writedisplay(list(strftime("%H:%M:%S")), 0)
+       # writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
-       # writedisplay(list(inputstring), 1)
+        writedisplay(list(inputstring), 1)
 main()
