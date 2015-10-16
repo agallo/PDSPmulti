@@ -103,10 +103,12 @@ def scrolldisplay(istring):
 def writedisplay(whattodisplay, chip):
     print "entering writetodisplay, chip = " + str(chip)
     if chip == 0:
+        print "   chip 0, all inputs LOW"
         wiringpi.digitalWrite(AD0, LOW)
         wiringpi.digitalWrite(AD1, LOW)
         wiringpi.digitalWrite(AD2, LOW)
     elif chip == 1:
+        print "   chip 1, AD1 HIGH"
         wiringpi.digitalWrite(AD1, HIGH)
     else:
         wiringpi.digitalWrite(AD2, HIGH)
