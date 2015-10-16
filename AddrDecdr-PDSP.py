@@ -101,9 +101,11 @@ def scrolldisplay(istring):
 
 
 def writedisplay(whattodisplay, chip):
+    print "entering writetodisplay, chip = " + str(chip)
     if chip == 0:
-        pass
-        # wiringpi.digitalWrite(AD0, HIGH)
+        wiringpi.digitalWrite(AD0, LOW)
+        wiringpi.digitalWrite(AD1, LOW)
+        wiringpi.digitalWrite(AD2, LOW)
     elif chip == 1:
         wiringpi.digitalWrite(AD1, HIGH)
     else:
@@ -162,6 +164,7 @@ def main():
     setup()
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
+        sleep(1)
         writedisplay(list(inputstring), 1)
 
 main()
