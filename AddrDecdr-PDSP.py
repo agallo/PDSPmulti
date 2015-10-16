@@ -164,7 +164,6 @@ def main():
     setup()
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
-        sleep(.5)
         writedisplay(list(inputstring), 1)
-        sleep(.5)
+        sleep(1)
 main()
