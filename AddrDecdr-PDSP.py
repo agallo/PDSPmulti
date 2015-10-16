@@ -90,11 +90,11 @@ def setup():
     resetdisplay()
 
 
-def scrolldisplay(istring):
+def scrolldisplay(istring, chip):
     for c in istring:
         tmpstr = ''.join(istring)
         print tmpstr[0:8]
-        writedisplay(tmpstr)
+        writedisplay(tmpstr, chip)
         istring.append(istring.pop(0))
         sleep(.3)
     return
@@ -167,5 +167,5 @@ def main():
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
-        writedisplay(list(inputstring), 1)
+       # writedisplay(list(inputstring), 1)
 main()
