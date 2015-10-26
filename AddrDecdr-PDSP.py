@@ -50,6 +50,7 @@ CLK = 18    # ShiftRegister-11              12
 AD0 = 22   # Address Decoder Input A0
 AD1 = 24   # Address Decoder Input A1
 AD2 = 26   # Address Decoder Input A2
+E2 = 12     # Address Decoder E2
 
 
 # some wiringPi vars to make reading the code easier to read
@@ -68,6 +69,8 @@ def resetdisplay():
     wiringpi.digitalWrite(AD0, LOW)
     wiringpi.digitalWrite(AD1, LOW)
     wiringpi.digitalWrite(AD2, LOW)
+    wiringpi.digitalWrite(E2, HIGH)
+
     return
 
 
@@ -87,6 +90,7 @@ def setup():
     wiringpi.pinMode(AD0, OUTPUT)
     wiringpi.pinMode(AD1, OUTPUT)
     wiringpi.pinMode(AD2, OUTPUT)
+    wiringpi.pinMode(E2, OUTPUT)
     resetdisplay()
 
 
@@ -129,13 +133,13 @@ def writedisplay(whattodisplay, chip):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
-        # wiringpi.digitalWrite(CE, LOW)
+        wiringpi.digitalWrite(E2, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
-        # wiringpi.digitalWrite(CE, HIGH)
+        wiringpi.digitalWrite(E2, HIGH)
         wiringpi.delay(1)
     print "LEAVING writetodisplay"
     if chip == 0:
