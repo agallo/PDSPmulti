@@ -180,7 +180,7 @@ def main():
     setup()
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
-        sleep(1)
+        sleep(3)
         writedisplay(list(inputstring), 1)
 
 
