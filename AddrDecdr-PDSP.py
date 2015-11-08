@@ -115,12 +115,14 @@ def whichdisplay(display):
         wiringpi.digitalWrite(E1, LOW)
         return
     if display == 0:
+        print "---->chip 0 selected, E1 HIGH, all others LOW"
         wiringpi.digitalWrite(E1, HIGH)
         wiringpi.digitalWrite(AD0, LOW)
         wiringpi.digitalWrite(AD1, LOW)
         wiringpi.digitalWrite(AD2, LOW)
         return
     if display == 1:
+        print "-------->chip 1 selected, E1 HIGH, AD0 HIGH"
         wiringpi.digitalWrite(E1, HIGH)
         wiringpi.digitalWrite(AD0, HIGH)
         wiringpi.digitalWrite(AD1, LOW)
@@ -181,7 +183,6 @@ def main():
     setup()
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
-        # sleep(1)
         writedisplay(list(inputstring), 1)
         sleep(1)
 
