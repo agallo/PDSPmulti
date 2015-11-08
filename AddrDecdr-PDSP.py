@@ -6,6 +6,7 @@ from time import strftime
 import wiringpi2 as wiringpi
 
 
+
 # TODO command line argument: -i (string to display (need to fiugre out how to accept special chars)
 # TODO command line argument: -t (system local time, 12 hour (no AM or PM))
 # TODO command line argument: -T (system local time, 24 hour)
@@ -38,19 +39,19 @@ ShfR -  PDSP
 # define pin names
 # VAR = GPIO header     PDSP or Shift Register pin#     via header pin
 RST = 3  # PDSP-1                        1
-A0 = 5   # PDSP-3                        3
-A1 = 7   # PDSP-4                        4
+A0 = 5  # PDSP-3                        3
+A1 = 7  # PDSP-4                        4
 A2 = 11  # PDSP-5                        5
 A3 = 13  # PDSP-6                        6
 # CE = 15  # PDSP-14                       7 <--replaced by ChipSelect Pins
 WR = 19  # PDSP-13                       8
 latch = 21  # ShiftRegister-12              10
-SER = 23    # ShiftRegister-14              11
-CLK = 18    # ShiftRegister-11              12
-AD0 = 22   # Address Decoder Input A0
-AD1 = 24   # Address Decoder Input A1
-AD2 = 26   # Address Decoder Input A2
-E2 = 12     # Address Decoder E2
+SER = 23  # ShiftRegister-14              11
+CLK = 18  # ShiftRegister-11              12
+AD0 = 22  # Address Decoder Input A0
+AD1 = 24  # Address Decoder Input A1
+AD2 = 26  # Address Decoder Input A2
+E1 = 12  # Address Decoder E2 (HIGH = all outputs LOW, ie enable = LOW)
 
 
 # some wiringPi vars to make reading the code easier to read
@@ -69,8 +70,7 @@ def resetdisplay():
     wiringpi.digitalWrite(AD0, LOW)
     wiringpi.digitalWrite(AD1, LOW)
     wiringpi.digitalWrite(AD2, LOW)
-    wiringpi.digitalWrite(E2, HIGH)
-
+    wiringpi.digitalWrite(E1, HIGH)
     return
 
 
@@ -82,7 +82,6 @@ def setup():
     wiringpi.pinMode(A1, OUTPUT)
     wiringpi.pinMode(A2, OUTPUT)
     wiringpi.pinMode(A3, OUTPUT)
-#    wiringpi.pinMode(CE, OUTPUT)
     wiringpi.pinMode(WR, OUTPUT)
     wiringpi.pinMode(latch, OUTPUT)
     wiringpi.pinMode(SER, OUTPUT)
@@ -90,7 +89,7 @@ def setup():
     wiringpi.pinMode(AD0, OUTPUT)
     wiringpi.pinMode(AD1, OUTPUT)
     wiringpi.pinMode(AD2, OUTPUT)
-    wiringpi.pinMode(E2, OUTPUT)
+    wiringpi.pinMode(E1, OUTPUT)
     resetdisplay()
 
 
@@ -104,18 +103,32 @@ def scrolldisplay(istring, chip):
     return
 
 
-def writedisplay(whattodisplay, chip):
-    print "entering writetodisplay, chip = " + str(chip)
-    if chip == 0:
-        print "   chip 0, all inputs LOW"
+def whichdisplay(display):
+    '''
+    select display to acativate, using base 0 numbering
+    PDSP with CE HIGH is the selected display
+    display 255 is used to set all address decoder outputs
+    (ie, all PDSP CE inputs) LOW
+    '''
+    print "entering whichdisplay, chip = " + str(display)
+    if display == 255:
+        wiringpi.digitalWrite(E1, LOW)
+        return
+    if display == 0:
+        wiringpi.digitalWrite(E1, HIGH)
         wiringpi.digitalWrite(AD0, LOW)
         wiringpi.digitalWrite(AD1, LOW)
         wiringpi.digitalWrite(AD2, LOW)
-    elif chip == 1:
-        print "   chip 1, AD1 HIGH"
-        wiringpi.digitalWrite(AD1, HIGH)
-    else:
-        wiringpi.digitalWrite(AD2, HIGH)
+        return
+    if display == 1:
+        wiringpi.digitalWrite(E1, HIGH)
+        wiringpi.digitalWrite(AD0, HIGH)
+        wiringpi.digitalWrite(AD1, LOW)
+        wiringpi.digitalWrite(AD2, LOW)
+        return
+
+
+def writedisplay(whattodisplay, chip):
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -141,17 +154,6 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         wiringpi.digitalWrite(E2, HIGH)
         wiringpi.delay(1)
-    print "LEAVING writetodisplay"
-    if chip == 0:
-        print "   chip 0, all inputs LOW"
-        wiringpi.digitalWrite(AD0, LOW)
-        wiringpi.digitalWrite(AD1, LOW)
-        wiringpi.digitalWrite(AD2, LOW)
-    elif chip == 1:
-        print "   chip 1, AD1 LOW"
-        wiringpi.digitalWrite(AD1, LOW)
-    else:
-        wiringpi.digitalWrite(AD2, LOW)
     return
 
 
@@ -177,7 +179,9 @@ inputstring = '   EDT  '
 def main():
     setup()
     while True:
-       # writedisplay(list(strftime("%H:%M:%S")), 0)
+        writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
         writedisplay(list(inputstring), 1)
+
+
 main()
