@@ -129,6 +129,7 @@ def whichdisplay(display):
 
 
 def writedisplay(whattodisplay, chip):
+    whichdisplay(chip)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -180,8 +181,9 @@ def main():
     setup()
     while True:
         writedisplay(list(strftime("%H:%M:%S")), 0)
-        sleep(3)
+        sleep(1)
         writedisplay(list(inputstring), 1)
+        sleep(1)
 
 
 main()
