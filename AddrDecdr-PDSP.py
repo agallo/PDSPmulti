@@ -112,6 +112,7 @@ def whichdisplay(display):
     '''
     print "entering whichdisplay, chip = " + str(display)
     if display == 255:
+        print "XXX--->255, E1 going LOW"
         wiringpi.digitalWrite(E1, LOW)
         return
     if display == 0:
@@ -157,6 +158,7 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         wiringpi.digitalWrite(E1, HIGH)
         wiringpi.delay(1)
+        whichdisplay(255)
     return
 
 
