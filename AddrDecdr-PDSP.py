@@ -184,7 +184,7 @@ def main():
     while True:
         whichdisplay(0)
         writedisplay(list(strftime("%H:%M:%S")), 0)
-        whichdisplay(1)
+        whichdisplay(0)
         writedisplay(list(inputstring), 1)
         sleep(1)
 
