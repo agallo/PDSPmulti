@@ -132,7 +132,6 @@ def whichdisplay(display):
 
 
 def writedisplay(whattodisplay, chip):
-    whichdisplay(chip)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
@@ -158,7 +157,6 @@ def writedisplay(whattodisplay, chip):
         wiringpi.delay(1)
         wiringpi.digitalWrite(E1, HIGH)
         wiringpi.delay(1)
-        whichdisplay(255)
     return
 
 
@@ -184,7 +182,9 @@ inputstring = '   EDT  '
 def main():
     setup()
     while True:
+        whichdisplay(0)
         writedisplay(list(strftime("%H:%M:%S")), 0)
+        whichdisplay(1)
         writedisplay(list(inputstring), 1)
         sleep(1)
 
