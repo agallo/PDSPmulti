@@ -146,13 +146,13 @@ def writedisplay(whattodisplay, chip):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
-        wiringpi.digitalWrite(E2, LOW)
+        wiringpi.digitalWrite(E1, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
-        wiringpi.digitalWrite(E2, HIGH)
+        wiringpi.digitalWrite(E1, HIGH)
         wiringpi.delay(1)
     return
 
