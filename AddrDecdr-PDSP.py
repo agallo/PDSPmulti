@@ -43,7 +43,7 @@ A0 = 5  # PDSP-3                        3
 A1 = 7  # PDSP-4                        4
 A2 = 11  # PDSP-5                        5
 A3 = 13  # PDSP-6                        6
-# CE = 15  # PDSP-14                       7 <--replaced by ChipSelect Pins
+# CE = 15  # PDSP-14                       7 <--replaced by AddrDcdr Pins
 WR = 19  # PDSP-13                       8
 latch = 21  # ShiftRegister-12              10
 SER = 23  # ShiftRegister-14              11
@@ -112,7 +112,7 @@ def scrolldisplay(istring, chip):
 
 def whichdisplay(display):
     '''
-    select display to acativate, using base 0 numbering
+    select display to activate, using base 0 numbering
     PDSP with CE HIGH is the selected display
     display 255 is used to set all address decoder outputs
     (ie, all PDSP CE inputs) LOW
