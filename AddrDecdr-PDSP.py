@@ -60,12 +60,13 @@ LOW = 0
 HIGH = 1
 OUTPUT = 1
 
-'''
+
 def setup():
     wiringpi.wiringPiSetupPhys()
     for pin in pinlist:
         wiringpi.pinMode(pin, OUTPUT)
-'''
+    resetdisplay()
+
 
 def resetdisplay():
     # some code to reset
@@ -80,7 +81,7 @@ def resetdisplay():
     wiringpi.digitalWrite(E1, HIGH)
     return
 
-
+'''
 def setup():
     wiringpi.wiringPiSetupPhys()
     # assign pins
@@ -98,7 +99,7 @@ def setup():
     wiringpi.pinMode(AD2, OUTPUT)
     wiringpi.pinMode(E1, OUTPUT)
     resetdisplay()
-
+'''
 
 def scrolldisplay(istring, chip):
     for c in istring:
