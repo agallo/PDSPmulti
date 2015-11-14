@@ -53,11 +53,18 @@ AD1 = 24  # Address Decoder Input A1
 AD2 = 26  # Address Decoder Input A2
 E1 = 12  # Address Decoder E2 (HIGH = all outputs LOW, ie enable = LOW)
 
+pinlist = [RST, A0, A1, A2, A3, WR, latch, SER, CLK, AD0, AD1, AD2, E1]
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
 HIGH = 1
 OUTPUT = 1
+
+
+def setup():
+    wiringpi.wiringPiSetupPhys()
+    for pin in pinlist:
+        wiringpi.pinMode(pin, OUTPUT)
 
 
 def resetdisplay():
@@ -73,7 +80,7 @@ def resetdisplay():
     wiringpi.digitalWrite(E1, HIGH)
     return
 
-
+'''
 def setup():
     wiringpi.wiringPiSetupPhys()
     # assign pins
@@ -91,7 +98,7 @@ def setup():
     wiringpi.pinMode(AD2, OUTPUT)
     wiringpi.pinMode(E1, OUTPUT)
     resetdisplay()
-
+'''
 
 def scrolldisplay(istring, chip):
     for c in istring:
