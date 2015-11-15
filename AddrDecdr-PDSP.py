@@ -2,7 +2,6 @@
 
 from time import sleep
 from time import strftime
-
 import wiringpi2 as wiringpi
 
 
@@ -51,9 +50,9 @@ CLK = 18  # ShiftRegister-11              12
 AD0 = 22  # Address Decoder Input A0
 AD1 = 24  # Address Decoder Input A1
 AD2 = 26  # Address Decoder Input A2
-E1 = 12  # Address Decoder E2 (HIGH = all outputs LOW, ie enable = LOW)
+E3 = 12  # Address Decoder E2 (HIGH = all outputs LOW, ie enable = LOW)
 
-pinlist = [RST, A0, A1, A2, A3, WR, latch, SER, CLK, AD0, AD1, AD2, E1]
+pinlist = [RST, A0, A1, A2, A3, WR, latch, SER, CLK, AD0, AD1, AD2, E3]
 
 # some wiringPi vars to make reading the code easier to read
 LOW = 0
@@ -78,28 +77,9 @@ def resetdisplay():
     wiringpi.digitalWrite(AD0, LOW)
     wiringpi.digitalWrite(AD1, LOW)
     wiringpi.digitalWrite(AD2, LOW)
-    wiringpi.digitalWrite(E1, HIGH)
+    wiringpi.digitalWrite(E3, HIGH)
     return
 
-'''
-def setup():
-    wiringpi.wiringPiSetupPhys()
-    # assign pins
-    wiringpi.pinMode(RST, OUTPUT)
-    wiringpi.pinMode(A0, OUTPUT)
-    wiringpi.pinMode(A1, OUTPUT)
-    wiringpi.pinMode(A2, OUTPUT)
-    wiringpi.pinMode(A3, OUTPUT)
-    wiringpi.pinMode(WR, OUTPUT)
-    wiringpi.pinMode(latch, OUTPUT)
-    wiringpi.pinMode(SER, OUTPUT)
-    wiringpi.pinMode(CLK, OUTPUT)
-    wiringpi.pinMode(AD0, OUTPUT)
-    wiringpi.pinMode(AD1, OUTPUT)
-    wiringpi.pinMode(AD2, OUTPUT)
-    wiringpi.pinMode(E1, OUTPUT)
-    resetdisplay()
-'''
 
 def scrolldisplay(istring, chip):
     for c in istring:
@@ -120,19 +100,19 @@ def whichdisplay(display):
     '''
     print "entering whichdisplay, chip = " + str(display)
     if display == 255:
-        print "XXX--->255, E1 going LOW"
-        wiringpi.digitalWrite(E1, LOW)
+        print "XXX--->255, E3 going LOW"
+        wiringpi.digitalWrite(E3, LOW)
         return
     if display == 0:
-        print "---->chip 0 selected, E1 HIGH, all others LOW"
-        wiringpi.digitalWrite(E1, HIGH)
+        print "---->chip 0 selected, E3 HIGH, all others LOW"
+        wiringpi.digitalWrite(E3, HIGH)
         wiringpi.digitalWrite(AD0, LOW)
         wiringpi.digitalWrite(AD1, LOW)
         wiringpi.digitalWrite(AD2, LOW)
         return
     if display == 1:
-        print "-------->chip 1 selected, E1 HIGH, AD0 HIGH"
-        wiringpi.digitalWrite(E1, HIGH)
+        print "-------->chip 1 selected, E3 HIGH, AD0 HIGH"
+        wiringpi.digitalWrite(E3, HIGH)
         wiringpi.digitalWrite(AD0, HIGH)
         wiringpi.digitalWrite(AD1, LOW)
         wiringpi.digitalWrite(AD2, LOW)
@@ -157,13 +137,13 @@ def writedisplay(whattodisplay, chip):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
-        wiringpi.digitalWrite(E1, LOW)
+        wiringpi.digitalWrite(E3, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
-        wiringpi.digitalWrite(E1, HIGH)
+        wiringpi.digitalWrite(E3, HIGH)
         wiringpi.delay(1)
     return
 
