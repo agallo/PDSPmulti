@@ -102,6 +102,9 @@ def whichdisplay(display):
     if display == 255:
         print "XXX--->255, E3 going LOW"
         wiringpi.digitalWrite(E3, LOW)
+        wiringpi.digitalWrite(AD0, LOW)
+        wiringpi.digitalWrite(AD1, LOW)
+        wiringpi.digitalWrite(AD2, LOW)
         return
     if display == 0:
         print "---->chip 0 selected, E3 HIGH, all others LOW"
