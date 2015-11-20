@@ -122,10 +122,6 @@ def whichdisplay(display):
 
 
 def writedisplay(whattodisplay):
-    if chip == 0:
-        wiringpi.digitalWrite(DSP0, HIGH)
-    else:
-        wiringpi.digitalWrite(DSP1, HIGH)
     for pos in range(0, 8):
         if 1 & pos <> 0:
             wiringpi.digitalWrite(A0, HIGH)
