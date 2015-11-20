@@ -99,8 +99,29 @@ def scrolldisplay(istring):
         sleep(.3)
     return
 
+def whichdisplay(display):
+    '''
+    select display to activate, using base 0 numbering
+    '''
+    print "entering whichdisplay, chip = " + str(display)
+    if display == 255:
+        print "XXX--->255, E3 going LOW"
+        wiringpi.digitalWrite(DSP0, LOW)
+        wiringpi.digitalWrite(DSP1, LOW)
+        return
+    if display == 0:
+        print "---->chip 0 selected, E3 HIGH, all others LOW"
+        wiringpi.digitalWrite(DSP0, HIGH)
+        wiringpi.digitalWrite(DSP1, LOW)
+        return
+    if display == 1:
+        print "-------->chip 1 selected, E3 HIGH, AD0 HIGH"
+        wiringpi.digitalWrite(DSP0, LOW)
+        wiringpi.digitalWrite(DSP1, HIGH)
+        return
 
-def writedisplay(whattodisplay, chip):
+
+def writedisplay(whattodisplay):
     if chip == 0:
         wiringpi.digitalWrite(DSP0, HIGH)
     else:
@@ -122,16 +143,12 @@ def writedisplay(whattodisplay, chip):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
-        # wiringpi.digitalWrite(CE, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
-        # wiringpi.digitalWrite(CE, HIGH)
         wiringpi.delay(1)
-    wiringpi.digitalWrite(DSP0, LOW)
-    wiringpi.digitalWrite(DSP1, LOW)
     return
 
 
@@ -157,8 +174,10 @@ inputstring = '   EDT  '
 def main():
     setup()
     while True:
+        whichdisplay(0)
         writedisplay(list(strftime("%H:%M:%S")), 0)
         sleep(1)
+        whichdisplay(1)
         writedisplay(list(inputstring), 1)
 
 

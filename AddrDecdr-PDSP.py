@@ -5,7 +5,6 @@ from time import strftime
 import wiringpi2 as wiringpi
 
 
-
 # TODO command line argument: -i (string to display (need to fiugre out how to accept special chars)
 # TODO command line argument: -t (system local time, 12 hour (no AM or PM))
 # TODO command line argument: -T (system local time, 24 hour)
