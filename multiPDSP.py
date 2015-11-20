@@ -102,10 +102,18 @@ def scrolldisplay(istring):
 def whichdisplay(display):
     '''
     select display to activate, using base 0 numbering
+    uses base 0 chip numbering
+    255 = all LOW
+    254 = all HIGH
     '''
     print "entering whichdisplay, chip = " + str(display)
     if display == 255:
-        print "XXX--->255, E3 going LOW"
+        print "XXX--->255, ALL LOW"
+        wiringpi.digitalWrite(DSP0, LOW)
+        wiringpi.digitalWrite(DSP1, LOW)
+        return
+    if display == 254:
+        print "XXX--->254, ALL HIGH"
         wiringpi.digitalWrite(DSP0, LOW)
         wiringpi.digitalWrite(DSP1, LOW)
         return
@@ -139,11 +147,13 @@ def writedisplay(whattodisplay):
         wiringpi.shiftOut(SER, CLK, 1, ord(whattodisplay[pos]))
         wiringpi.digitalWrite(latch, HIGH)
         wiringpi.delay(1)
+        whichdisplay(255)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, LOW)
         wiringpi.delay(1)
         wiringpi.digitalWrite(WR, HIGH)
         wiringpi.delay(1)
+        whichdisplay(254)
         wiringpi.delay(1)
     return
 
